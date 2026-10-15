@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <string.h>
+ 
+#define MAX_TRY 3   /* 最多尝试次数 */
+ 
+int main(void)
+{
+    char pw[10];
+    int count = 0;
+ 
+    do
+    {
+        count++;
+        printf("第 %d 次输入密码: ", count);
+ 
+        if (fgets(pw, sizeof(pw), stdin) == NULL)   /* 读取失败直接退出 */
+            return 1;
+ 
+        pw[strcspn(pw, "\n")] = '\0';   /* 去掉 fgets 读入的换行符 */
+ 
+        if (strcmp(pw, "acore") == 0)
+        {
+            break;                      /* 密码正确，跳出循环 */
+        }
+        else if (count >= MAX_TRY)
+        {
+            printf("密码错误，%d 次机会已用完，程序退出！\n", MAX_TRY);
+            return 1;                   /* 失败退出，返回非 0 */
+        }
+    } while (1);
+ 
+    printf("密码正确!^_^\n");
+    return 0;
+}
